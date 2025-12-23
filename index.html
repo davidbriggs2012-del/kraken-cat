@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kraken CPU Temp + Calico Cat</title>
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: #0b0b0b;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .temp {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 32px;
+      color: #ffffff;
+      z-index: 2;
+    }
+
+    .cat {
+      position: absolute;
+      bottom: 10px;
+      width: 120px;
+      height: 80px;
+      background: linear-gradient(
+        90deg,
+        #f5f5f5 0%,
+        #f5f5f5 33%,
+        #ff914d 33%,
+        #ff914d 66%,
+        #2b2b2b 66%
+      );
+      border-radius: 40px 40px 30px 30px;
+      animation: walk 8s linear infinite;
+    }
+
+    .cat::before,
+    .cat::after {
+      content: "";
+      position: absolute;
+      top: -20px;
+      width: 25px;
+      height: 25px;
+      background: #f5f5f5;
+      border-radius: 5px;
+    }
+
+    .cat::before { left: 15px; }
+    .cat::after { right: 15px; }
+
+    @keyframes walk {
+      from { left: -150px; }
+      to { left: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="temp" id="cpuTemp">CPU: --°C</div>
+  <div class="cat"></div>
+
+  <script>
+    function getCpuTemp() {
+      if (window.nzxt && window.nzxt.system && window.nzxt.system.cpu) {
+        return window.nzxt.system.cpu.temperature;
+      }
+      return Math.floor(40 + Math.random() * 20);
+    }
+
+    function updateTemp() {
+      const temp = getCpuTemp();
+      document.getElementById("cpuTemp").innerText = `CPU: ${temp}°C`;
+    }
+
+    updateTemp();
+    setInterval(updateTemp, 1000);
+  </script>
+
+</body>
+</html>
